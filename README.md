@@ -6,10 +6,10 @@
   <img src="https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?auto=format&fit=crop&w=1200&q=80" alt="LingoLens Banner" width="100%" style="border-radius: 12px; max-height: 380px; object-fit: cover;" />
 </p>
 
-[![React](https://img.shields.io/badge/React-18-blue?style=for-the-badge&logo=react)](https://reactjs.org/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue?style=for-the-badge&logo=typescript)](https://www.typescriptlang.org/)
+[![React](https://img.shields.io/badge/React-19-blue?style=for-the-badge&logo=react)](https://react.dev/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.8-blue?style=for-the-badge&logo=typescript)](https://www.typescriptlang.org/)
 [![Tailwind CSS](https://img.shields.io/badge/TailwindCSS-v4-38B2AC?style=for-the-badge&logo=tailwind-css)](https://tailwindcss.com/)
-[![Google Gemini](https://img.shields.io/badge/Google_Gemini-3.1_Flash-8E75B2?style=for-the-badge&logo=google)](https://ai.google.dev/)
+[![Google Gemini](https://img.shields.io/badge/Google_Gemini-Flash_Lite-8E75B2?style=for-the-badge&logo=google)](https://ai.google.dev/)
 [![PWA Ready](https://img.shields.io/badge/PWA-iOS_&_Windows_Ready-green?style=for-the-badge&logo=pwa)](https://web.dev/progressive-web-apps/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](LICENSE)
 
@@ -18,13 +18,30 @@
   <em>Transform abstract idioms, slang, and vocabulary into unforgettable visual mental hooks with contextual AI.</em>
 </p>
 
+[📸 界面预览](#-界面预览-screenshots) •
+[🧠 产品思考](#-产品思考与取舍-product-trade-offs) •
 [✨ 核心特性](#-核心亮点-highlights) •
 [📱 手机/桌面安装 (PWA)](#-跨端体验--pwa-安装指南) •
 [🚀 快速开始](#-本地运行指南-quick-start) •
-[🏗️ 系统架构](#-技术架构-architecture) •
-[🗺️ 未来路线图](#-产品路线图-roadmap)
+[🏗️ 系统架构](#-技术架构-architecture)
 
 </div>
+
+---
+
+## 📸 界面预览 (Screenshots)
+
+| 首页与语境查词入口 | 视觉记忆锚点卡（概念插画＋文化语境） | 3D 翻转闪卡与闭环复习 |
+| :---: | :---: | :---: |
+| ![LingoLens 首页](docs/screenshots/01-home.png) | ![视觉记忆锚点卡](docs/screenshots/02-visual-card.png) | ![3D 翻转闪卡](docs/screenshots/03-flashcards.png) |
+
+---
+
+## 🧠 产品思考与取舍 (Product Trade-offs)
+
+- **为什么要做**：传统电子词典只给静态释义，对文化隐喻强的习语（如 *bite the bullet*）记忆效率低。结合教育学与认知心理学中的**双重编码理论（Dual-Coding Theory）**，本项目尝试用「专属视觉隐喻＋母语好友式语境＋3D 闪卡＋生词串联故事」构建完整记忆闭环。
+- **刻意做的架构与成本取舍**：① 针对高频习语内置本地 `curatedBank.ts`（0ms 响应、零 API 消耗），叠加前后端双层内存缓存，控制大模型调用延迟与费用；② 后端实现多模型自动冷却与超时熔断降级（3.5s 竞速超时），减少单一模型 429/503 抖动带来的体验中断。
+- **诚实的当前边界**：这是一个**个人独立完成的 AI 全栈交互原型（Prototype）**，目前使用浏览器本地存储（LocalStorage）而非云端账户体系，尚未经过大规模商业并发压测；下一步计划是邀请小批真实学习者试用，根据反馈迭代提示词与复习节奏。
 
 ---
 
@@ -82,7 +99,7 @@
 ### 6. ⚡ 毫秒级极速响应与弹性容灾
 * **本地高频语料库 (Curated Bank)**：常用习语与例词 0ms 闪电秒开。
 * **双层智能内存缓存**：前端 + 后端双重缓存，大幅降低网络开销与 API 消耗。
-* **Gemini Flash 智能故障降级**：具备多模型自动平滑切换与超时熔断，稳定性 99.9%。
+* **Gemini Flash 故障降级策略**：具备多模型自动冷却切换与 3.5s 超时熔断降级机制，减少单模型拥堵导致的中断。
 
 ---
 
@@ -108,7 +125,7 @@ LingoLens 具备完整的渐进式 Web 应用 (PWA) 支持，无需通过应用�
 
 ### 1. 克隆代码仓库
 ```bash
-git clone https://github.com/your-username/lingo-lens.git
+git clone https://github.com/cyanxjh/lingo-lens.git
 cd lingo-lens
 ```
 
@@ -145,7 +162,7 @@ npm start
 
 ```
 lingo-lens/
-├── src/                      # 前端客户端 (React 18 + Tailwind CSS)
+├── src/                      # 前端客户端 (React 19 + Tailwind CSS v4)
 │   ├── components/           # 核心交互组件
 │   │   ├── ResultCard.tsx    # 视觉词典结果卡片（配图、例句、语境）
 │   │   ├── NotebookView.tsx  # 生词本视图（分类标签、筛选排序）
@@ -161,7 +178,7 @@ lingo-lens/
 └── vite.config.ts            # 构建配置与 Tailwind 引擎
 ```
 
-* **Frontend**: React 18, TypeScript, Tailwind CSS v4, Lucide Icons, Canvas-Confetti
+* **Frontend**: React 19, TypeScript, Tailwind CSS v4, Lucide Icons, Motion
 * **Backend**: Node.js, Express, ESBuild Server Bundler
 * **AI Engine**: Google `@google/genai` SDK (`gemini-3.1-flash-lite`, `gemini-3.5-flash-lite`)
 * **Visual Generator**: Pollinations Flux / SDXL 视觉概念隐喻生成引擎
